@@ -3,7 +3,7 @@
 Validation was last updated on 2026-05-17 in:
 
 ```text
-/Users/quanshengguo/Documents/Semi-Automated Statistical & Machine Learning Workbench
+<project-root>
 ```
 
 ## Latest Commands Run
@@ -24,10 +24,10 @@ The warning came from joblib/loky while it tried to detect physical CPU cores du
 git status --short
 ```
 
-Result: failed because this directory is not currently a git repository.
+Result: passed. No uncommitted files were reported during the release readiness check.
 
 ```text
-fatal: not a git repository (or any of the parent directories): .git
+<clean working tree>
 ```
 
 ## Python Command Note
