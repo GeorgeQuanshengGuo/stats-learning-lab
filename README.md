@@ -142,6 +142,10 @@ See `docs/KNOWN_LIMITATIONS.md` for the full limitation list.
 - `docs/FEATURE_INVENTORY.md`: implemented feature inventory.
 - `docs/STABILIZATION_PLAN.md`: validation-focused stabilization plan.
 
+## Acknowledgements
+
+I built this project with help from OpenAI Codex, especially for implementation support, debugging, documentation drafts, and test coverage. The project reflects my current learning process in statistics, data analysis, and machine learning.
+
 ## Disclaimer
 
 This tool supports analysis practice and learning. It mainly brings together existing open-source Python libraries in one local workflow. It does not replace statistical judgment, domain expertise, or formal review. Results require interpretation, and causal conclusions require an appropriate study design beyond what the app can infer automatically.
