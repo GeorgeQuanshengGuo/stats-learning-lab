@@ -14,9 +14,9 @@ v1.0.0
 
 ## Overview
 
-Stats Learning Lab is a local Streamlit app for practicing applied statistics and basic machine learning workflows. It organizes common pandas, statsmodels, scikit-learn, Plotly, and Streamlit functionality into a guided interface for learning-oriented data analysis.
+Stats Learning Lab is a local Streamlit app I built while learning and practicing applied statistics and basic machine learning workflows. It reflects my current understanding of data analysis and organizes common pandas, statsmodels, scikit-learn, Plotly, and Streamlit functionality into a guided interface.
 
-This release marks the first v1.0-ready version of the project. It supports data upload, exploratory analysis, cleaning, transformations, statistical modeling, machine learning baselines, diagnostics, prediction, model comparison, and Markdown/HTML report export.
+This release marks my first attempt to prepare the project for a GitHub v1.0 release. It should be understood as a learning-oriented project, not a claim that the app is a complete professional analytics platform or a new statistical method. The app mainly helps me and other learners practice a transparent workflow: upload data, explore it, clean it, transform variables, fit selected models, check diagnostics, make simple predictions, compare results, and export Markdown/HTML reports.
 
 The app is intentionally not black-box AutoML. Users choose the dataset, target, features, model family, preprocessing options, transformations, and interpretation path.
 
@@ -155,11 +155,12 @@ See `docs/KNOWN_LIMITATIONS.md` for the full list. Key limitations:
 - Initialize the project as a git repository if it is not already one.
 - Consider creating a lock file from a clean virtual environment for stricter reproducibility.
 - Collect feedback from users learning statistics or applied ML and refine the UI copy where needed.
-- Keep future changes focused on robustness, clarity, and correctness before adding new models.
+- Keep future changes focused on robustness, clarity, and correctness before adding more models.
+- Add future modules gradually as my learning continues. Possible future directions include time series and survival analysis, since these are topics I have studied and may support later.
 
 ## Disclaimer
 
-This tool supports analysis and learning. It does not replace statistical judgment, domain expertise, or formal review. Results require interpretation, and causal conclusions require an appropriate study design beyond what the app can infer automatically.
+This tool supports analysis practice and learning. It mainly brings together existing open-source Python libraries in one local workflow. It does not replace statistical judgment, domain expertise, or formal review. Results require interpretation, and causal conclusions require an appropriate study design beyond what the app can infer automatically.
 
 ## Suggested Git Commands
 

@@ -6,9 +6,11 @@ Date: 2026-05-17
 
 ## Project Summary
 
-Stats Learning Lab is a local Streamlit app for practicing applied statistics and basic machine learning workflows. It is a learning-focused project that organizes common pandas, statsmodels, scikit-learn, Plotly, and Streamlit functionality into a guided interface.
+Stats Learning Lab is a local Streamlit app I built for practicing applied statistics and basic machine learning workflows. It is a learning-focused project based on my current understanding of data analysis. Rather than inventing new statistical methods, it organizes existing pandas, statsmodels, scikit-learn, Plotly, and Streamlit functionality into a guided local interface.
 
 The app is intentionally not black-box AutoML. Users choose the dataset, target variable, features, model family, preprocessing options, transformations, interpretation path, and report content.
+
+This v1.0 release candidate is best understood as a starting point for learning and iteration. Future versions may add more topics as I keep studying, including possible support for time series and survival analysis.
 
 ## Major Features
 
@@ -156,6 +158,8 @@ Confirmed present:
 See `docs/KNOWN_LIMITATIONS.md` for the full list. The most important v1.0 limitations are:
 
 - The app is for local trusted learning and analysis, not multi-user production deployment.
+- The app reflects the author's current learning and should not be treated as a complete professional analytics platform.
+- The app wraps and coordinates existing open-source Python libraries; it is not original statistical methodology.
 - Results require interpretation and do not replace statistical judgment.
 - Correlations, feature importance, and coefficients do not prove causality.
 - Variable type detection is heuristic.
@@ -240,6 +244,8 @@ Additional older synthetic sample files are also present and are not release blo
 - SHAP explanations.
 - PDF or Word report export.
 - Production model monitoring.
+
+Some of these areas may be explored in future versions, especially time series and survival analysis, but they are intentionally outside the first release.
 
 ## Release Blockers
 
