@@ -1,0 +1,522 @@
+[
+  {
+    "key": "eda",
+    "term": "EDA",
+    "category": "EDA",
+    "short_definition": "Exploratory Data Analysis is the first pass at understanding a dataset before modeling.",
+    "long_definition": "EDA uses summaries, missingness checks, charts, and relationship views to understand variable quality, distributions, and possible patterns.",
+    "example": "Checking histograms, missing values, and correlations before choosing a regression model.",
+    "common_misunderstanding": "EDA can suggest patterns, but it does not prove causality or validate a final model.",
+    "related_terms": ["summary_table", "correlation", "outlier"]
+  },
+  {
+    "key": "summary_table",
+    "term": "Summary table",
+    "category": "EDA",
+    "short_definition": "A table of basic statistics for each variable.",
+    "long_definition": "A summary table usually shows data type, missing values, unique values, numeric statistics, and top categorical values.",
+    "example": "For age, the table may show mean, median, quartiles, and missing count.",
+    "common_misunderstanding": "Summary tables describe the data; they do not explain why values occur.",
+    "related_terms": ["eda", "missing_value"]
+  },
+  {
+    "key": "missing_value",
+    "term": "Missing value",
+    "category": "EDA",
+    "short_definition": "A value that is unavailable, blank, or recorded as not present.",
+    "long_definition": "Missing values can happen because data was not collected, not applicable, lost, or intentionally withheld. Missingness can affect summaries and model fitting.",
+    "example": "A blank blood pressure cell in a health dataset.",
+    "common_misunderstanding": "Missing values are not always errors; sometimes they have meaning.",
+    "related_terms": ["imputation", "summary_table"]
+  },
+  {
+    "key": "imputation",
+    "term": "Imputation",
+    "category": "EDA",
+    "short_definition": "Replacing missing values with estimated or rule-based values.",
+    "long_definition": "Imputation fills missing entries using a method such as median, mode, or model-based estimates. For modeling, imputation must be fit only on training data to avoid leakage.",
+    "example": "Replacing missing income values with the training-set median income.",
+    "common_misunderstanding": "Imputed values are not observed facts; they are assumptions added to the dataset.",
+    "related_terms": ["missing_value", "train_test_split"]
+  },
+  {
+    "key": "outlier",
+    "term": "Outlier",
+    "category": "EDA",
+    "short_definition": "An observation that looks unusual compared with the rest of the data.",
+    "long_definition": "Outliers may be valid extreme cases, data entry errors, or points from a different process. They should be investigated rather than removed automatically.",
+    "example": "A salary value far above the rest of a sample.",
+    "common_misunderstanding": "An outlier is not automatically wrong.",
+    "related_terms": ["residual", "anomaly", "influence"]
+  },
+  {
+    "key": "correlation",
+    "term": "Correlation",
+    "category": "EDA",
+    "short_definition": "A measure of association between two variables.",
+    "long_definition": "Correlation summarizes how two variables move together. Different correlation methods capture different kinds of relationships.",
+    "example": "Height and weight often have a positive correlation.",
+    "common_misunderstanding": "Correlation does not imply causation.",
+    "related_terms": ["pearson_correlation", "spearman_correlation"]
+  },
+  {
+    "key": "pearson_correlation",
+    "term": "Pearson correlation",
+    "category": "EDA",
+    "short_definition": "A correlation measure for linear relationships between numeric variables.",
+    "long_definition": "Pearson correlation ranges from -1 to 1 and measures how closely two numeric variables follow a straight-line relationship.",
+    "example": "A Pearson correlation of 0.85 suggests a strong positive linear relationship.",
+    "common_misunderstanding": "Pearson correlation can miss nonlinear relationships.",
+    "related_terms": ["correlation", "spearman_correlation"]
+  },
+  {
+    "key": "spearman_correlation",
+    "term": "Spearman correlation",
+    "category": "EDA",
+    "short_definition": "A rank-based correlation measure for monotonic relationships.",
+    "long_definition": "Spearman correlation uses ranks instead of raw values, making it useful when a relationship is consistently increasing or decreasing but not necessarily linear.",
+    "example": "Higher satisfaction rank may move with higher retention rank.",
+    "common_misunderstanding": "Spearman still describes association, not causation.",
+    "related_terms": ["correlation", "pearson_correlation"]
+  },
+  {
+    "key": "p_value",
+    "term": "p-value",
+    "category": "statistical modeling",
+    "short_definition": "A probability used in hypothesis testing under a specified null hypothesis.",
+    "long_definition": "A p-value is the probability of seeing results at least as extreme as the observed result if the null hypothesis and model assumptions were true.",
+    "example": "A p-value of 0.03 is often treated as evidence against a null coefficient of zero.",
+    "common_misunderstanding": "A p-value is not the probability that the null hypothesis is true.",
+    "related_terms": ["coefficient", "confidence_interval"]
+  },
+  {
+    "key": "confidence_interval",
+    "term": "Confidence interval",
+    "category": "statistical modeling",
+    "short_definition": "A range of plausible values for an estimated population quantity.",
+    "long_definition": "A confidence interval describes uncertainty in an estimate, such as a mean or coefficient, under the model assumptions and sampling procedure.",
+    "example": "A 95% confidence interval for a coefficient might be 0.4 to 1.2.",
+    "common_misunderstanding": "It is not a guarantee that one specific interval contains the true value.",
+    "related_terms": ["p_value", "prediction_interval"]
+  },
+  {
+    "key": "prediction_interval",
+    "term": "Prediction interval",
+    "category": "prediction",
+    "short_definition": "A range for a new individual prediction.",
+    "long_definition": "A prediction interval includes uncertainty about both the expected mean response and individual observation noise, so it is usually wider than a confidence interval for the mean.",
+    "example": "A predicted house price might have a prediction interval from 280k to 360k.",
+    "common_misunderstanding": "A prediction interval is not the same as a confidence interval for the average response.",
+    "related_terms": ["confidence_interval", "prediction_probability"]
+  },
+  {
+    "key": "coefficient",
+    "term": "Coefficient",
+    "category": "statistical modeling",
+    "short_definition": "A model parameter that describes how a predictor contributes to the model.",
+    "long_definition": "In linear models, coefficients describe the estimated direction and size of association with the target, conditional on other predictors.",
+    "example": "A coefficient of 2.0 for study hours means the fitted model adds 2 units per additional hour, if assumptions fit.",
+    "common_misunderstanding": "A coefficient is not automatically a causal effect.",
+    "related_terms": ["p_value", "odds_ratio"]
+  },
+  {
+    "key": "odds_ratio",
+    "term": "Odds ratio",
+    "category": "statistical modeling",
+    "short_definition": "A multiplicative change in odds, often used in logistic regression.",
+    "long_definition": "An odds ratio above 1 means higher odds for the positive class; below 1 means lower odds, conditional on the model and predictors.",
+    "example": "An odds ratio of 1.5 means 50% higher odds, not 50% higher probability.",
+    "common_misunderstanding": "Odds ratios are often mistaken for probability ratios.",
+    "related_terms": ["coefficient", "threshold", "prediction_probability"]
+  },
+  {
+    "key": "r_squared",
+    "term": "R-squared",
+    "category": "statistical modeling",
+    "short_definition": "The proportion of target variance explained by a regression model on the evaluated data.",
+    "long_definition": "R-squared ranges from 0 to 1 for many standard regression settings and measures in-sample or evaluated fit, not causal validity.",
+    "example": "R-squared of 0.72 means the model explains about 72% of observed variance in that evaluation.",
+    "common_misunderstanding": "Higher R-squared does not always mean a better or more trustworthy model.",
+    "related_terms": ["adjusted_r_squared", "rmse"]
+  },
+  {
+    "key": "adjusted_r_squared",
+    "term": "Adjusted R-squared",
+    "category": "statistical modeling",
+    "short_definition": "An R-squared variant adjusted for the number of predictors.",
+    "long_definition": "Adjusted R-squared penalizes adding predictors that do not improve fit enough, making it more useful than raw R-squared for comparing linear models with different feature counts.",
+    "example": "A model can have higher R-squared but lower adjusted R-squared after adding weak predictors.",
+    "common_misunderstanding": "Adjusted R-squared is still not a test of causality or deployment performance.",
+    "related_terms": ["r_squared", "aic", "bic"]
+  },
+  {
+    "key": "rmse",
+    "term": "RMSE",
+    "category": "machine learning",
+    "short_definition": "Root Mean Squared Error measures typical regression prediction error with extra weight on large errors.",
+    "long_definition": "RMSE is in the same units as the target and squares errors before averaging, so large misses have a strong effect.",
+    "example": "If target is dollars, RMSE is also in dollars.",
+    "common_misunderstanding": "RMSE is not a percentage unless the target itself is a percentage.",
+    "related_terms": ["mae", "r_squared"]
+  },
+  {
+    "key": "mae",
+    "term": "MAE",
+    "category": "machine learning",
+    "short_definition": "Mean Absolute Error measures average absolute regression prediction error.",
+    "long_definition": "MAE is easier to interpret than RMSE because it averages absolute errors in the target's original units.",
+    "example": "An MAE of 3 means predictions are off by about 3 target units on average.",
+    "common_misunderstanding": "MAE treats all errors linearly and does not emphasize large misses as much as RMSE.",
+    "related_terms": ["rmse", "r_squared"]
+  },
+  {
+    "key": "aic",
+    "term": "AIC",
+    "category": "statistical modeling",
+    "short_definition": "A model comparison score balancing fit and complexity.",
+    "long_definition": "AIC is often used to compare models fit to the same data. Lower AIC is preferred, but only among comparable models.",
+    "example": "Two OLS models on the same target can be compared by AIC.",
+    "common_misunderstanding": "AIC is not an absolute measure of model truth.",
+    "related_terms": ["bic", "adjusted_r_squared"]
+  },
+  {
+    "key": "bic",
+    "term": "BIC",
+    "category": "statistical modeling",
+    "short_definition": "A model comparison score that penalizes complexity more strongly than AIC.",
+    "long_definition": "BIC compares models fit to the same data and tends to prefer simpler models than AIC when sample size grows.",
+    "example": "A lower BIC can suggest a more parsimonious model among candidates.",
+    "common_misunderstanding": "BIC should not be compared across unrelated targets or datasets.",
+    "related_terms": ["aic", "adjusted_r_squared"]
+  },
+  {
+    "key": "residual",
+    "term": "Residual",
+    "category": "diagnostics",
+    "short_definition": "The difference between observed and fitted values.",
+    "long_definition": "Residuals help diagnose model fit, unusual observations, nonlinearity, and changing error variance.",
+    "example": "If observed y is 10 and fitted y is 8, the residual is 2.",
+    "common_misunderstanding": "A residual is not the same as the original target value.",
+    "related_terms": ["normal_qq_plot", "heteroscedasticity"]
+  },
+  {
+    "key": "normal_qq_plot",
+    "term": "Normal Q-Q plot",
+    "category": "visualization",
+    "short_definition": "A plot used to check whether residuals roughly follow a normal distribution.",
+    "long_definition": "A Q-Q plot compares ordered residuals to theoretical normal quantiles. Strong bends or tail departures can signal assumption issues.",
+    "example": "OLS residuals falling near the diagonal line look more normal.",
+    "common_misunderstanding": "A Q-Q plot does not prove the model is correct.",
+    "related_terms": ["residual", "heteroscedasticity"]
+  },
+  {
+    "key": "heteroscedasticity",
+    "term": "Heteroscedasticity",
+    "category": "diagnostics",
+    "short_definition": "Unequal residual variance across fitted values or predictors.",
+    "long_definition": "Heteroscedasticity can make standard errors and inference unreliable in ordinary linear regression if not handled.",
+    "example": "Residual spread grows larger as fitted income increases.",
+    "common_misunderstanding": "It is a variance problem, not simply a low R-squared problem.",
+    "related_terms": ["residual", "normal_qq_plot"]
+  },
+  {
+    "key": "vif",
+    "term": "VIF",
+    "category": "diagnostics",
+    "short_definition": "Variance Inflation Factor measures how much a predictor is linearly explained by other predictors.",
+    "long_definition": "VIF is a multicollinearity diagnostic. High VIF means coefficient estimates may be unstable because predictors overlap strongly.",
+    "example": "VIF above 10 is often treated as a strong multicollinearity warning.",
+    "common_misunderstanding": "VIF is not an overfitting metric.",
+    "related_terms": ["multicollinearity", "coefficient"]
+  },
+  {
+    "key": "multicollinearity",
+    "term": "Multicollinearity",
+    "category": "diagnostics",
+    "short_definition": "Strong overlap or correlation among predictors.",
+    "long_definition": "Multicollinearity can make coefficients unstable and hard to interpret, especially in regression models.",
+    "example": "Using both total income and monthly income as predictors may create multicollinearity.",
+    "common_misunderstanding": "Multicollinearity can harm interpretation even when prediction accuracy is acceptable.",
+    "related_terms": ["vif", "correlation"]
+  },
+  {
+    "key": "overfitting",
+    "term": "Overfitting",
+    "category": "diagnostics",
+    "short_definition": "When a model learns training noise too well and performs worse on new data.",
+    "long_definition": "Overfitting is often seen as much better train performance than test or validation performance.",
+    "example": "A tree with perfect training accuracy but weak test accuracy may be overfit.",
+    "common_misunderstanding": "High training performance alone does not prove a model will generalize.",
+    "related_terms": ["cross_validation", "train_test_split"]
+  },
+  {
+    "key": "cross_validation",
+    "term": "Cross-validation",
+    "category": "machine learning",
+    "short_definition": "A repeated train/validation strategy for estimating model performance.",
+    "long_definition": "Cross-validation splits data into folds and evaluates the full modeling pipeline across those folds. Preprocessing must happen inside each fold to avoid leakage.",
+    "example": "5-fold cross-validation trains five models, each holding out a different fold.",
+    "common_misunderstanding": "Cross-validation is not a license to tune forever without a final test set.",
+    "related_terms": ["train_test_split", "overfitting"]
+  },
+  {
+    "key": "train_test_split",
+    "term": "Train/test split",
+    "category": "machine learning",
+    "short_definition": "A split that trains a model on one part of data and evaluates it on held-out data.",
+    "long_definition": "The test set should stay separate from fitting decisions so it can estimate performance on unseen data.",
+    "example": "Using 80% of rows for training and 20% for testing.",
+    "common_misunderstanding": "Preprocessing should not be fit on the full dataset before the split.",
+    "related_terms": ["cross_validation", "overfitting"]
+  },
+  {
+    "key": "precision",
+    "term": "Precision",
+    "category": "machine learning",
+    "short_definition": "Among predicted positives, the fraction that are truly positive.",
+    "long_definition": "Precision is useful when false positives are costly.",
+    "example": "If 80 cases are predicted positive and 60 are true positives, precision is 0.75.",
+    "common_misunderstanding": "Precision does not measure how many real positives were found.",
+    "related_terms": ["recall", "f1_score"]
+  },
+  {
+    "key": "recall",
+    "term": "Recall",
+    "category": "machine learning",
+    "short_definition": "Among real positives, the fraction the model found.",
+    "long_definition": "Recall is useful when false negatives are costly.",
+    "example": "If 100 true positives exist and the model finds 70, recall is 0.70.",
+    "common_misunderstanding": "High recall can come with many false positives.",
+    "related_terms": ["precision", "f1_score"]
+  },
+  {
+    "key": "f1_score",
+    "term": "F1 score",
+    "category": "machine learning",
+    "short_definition": "A single score balancing precision and recall.",
+    "long_definition": "F1 is the harmonic mean of precision and recall. It is useful when classes are imbalanced and both false positives and false negatives matter.",
+    "example": "A model with precision 0.80 and recall 0.60 has an F1 between them.",
+    "common_misunderstanding": "F1 ignores true negatives.",
+    "related_terms": ["precision", "recall"]
+  },
+  {
+    "key": "roc_auc",
+    "term": "ROC AUC",
+    "category": "machine learning",
+    "short_definition": "A score for how well a classifier ranks positives above negatives across thresholds.",
+    "long_definition": "ROC AUC evaluates ranking performance across many thresholds and is often useful for binary classification.",
+    "example": "ROC AUC of 0.90 indicates strong ranking separation.",
+    "common_misunderstanding": "ROC AUC does not choose the best threshold for your use case.",
+    "related_terms": ["threshold", "pr_auc"]
+  },
+  {
+    "key": "pr_auc",
+    "term": "PR AUC",
+    "category": "machine learning",
+    "short_definition": "Area under the precision-recall curve.",
+    "long_definition": "PR AUC summarizes precision and recall across thresholds and is often informative when the positive class is rare.",
+    "example": "Fraud detection often uses PR AUC because fraud cases are uncommon.",
+    "common_misunderstanding": "PR AUC values are not directly comparable to ROC AUC values.",
+    "related_terms": ["precision", "recall", "roc_auc"]
+  },
+  {
+    "key": "confusion_matrix",
+    "term": "Confusion matrix",
+    "category": "machine learning",
+    "short_definition": "A table comparing predicted classes with actual classes.",
+    "long_definition": "A confusion matrix shows true positives, false positives, true negatives, and false negatives for classification tasks.",
+    "example": "It can show how many positive cases were missed.",
+    "common_misunderstanding": "It depends on the selected threshold for binary classification.",
+    "related_terms": ["threshold", "precision", "recall"]
+  },
+  {
+    "key": "calibration",
+    "term": "Calibration",
+    "category": "diagnostics",
+    "short_definition": "How well predicted probabilities match observed frequencies.",
+    "long_definition": "A calibrated classifier's predicted probabilities correspond to real-world event rates over groups of similar predictions.",
+    "example": "Among cases predicted at 70% probability, about 70% should be positive if calibrated.",
+    "common_misunderstanding": "A model can rank well but still be poorly calibrated.",
+    "related_terms": ["prediction_probability", "roc_auc"]
+  },
+  {
+    "key": "feature_importance",
+    "term": "Feature importance",
+    "category": "machine learning",
+    "short_definition": "A model-based score describing how much features contribute to predictions.",
+    "long_definition": "Feature importance can come from model internals or permutation tests and helps inspect model behavior.",
+    "example": "A random forest may assign high importance to age.",
+    "common_misunderstanding": "Feature importance does not imply causality.",
+    "related_terms": ["permutation_importance", "pdp"]
+  },
+  {
+    "key": "permutation_importance",
+    "term": "Permutation importance",
+    "category": "machine learning",
+    "short_definition": "Feature importance measured by shuffling a feature and observing performance loss.",
+    "long_definition": "Permutation importance estimates how much model performance drops when a feature's information is disrupted.",
+    "example": "If shuffling income sharply worsens RMSE, income may be important to the model.",
+    "common_misunderstanding": "It can be misleading when predictors are highly correlated.",
+    "related_terms": ["feature_importance", "multicollinearity"]
+  },
+  {
+    "key": "pdp",
+    "term": "PDP",
+    "category": "visualization",
+    "short_definition": "Partial Dependence Plot shows average model response as one feature changes.",
+    "long_definition": "PDP estimates how predictions change on average across a grid of feature values while averaging over other features.",
+    "example": "A PDP can show predicted price rising as house size increases.",
+    "common_misunderstanding": "PDP shows model behavior, not a causal effect.",
+    "related_terms": ["ice", "feature_importance"]
+  },
+  {
+    "key": "ice",
+    "term": "ICE",
+    "category": "visualization",
+    "short_definition": "Individual Conditional Expectation curves show model response for individual rows.",
+    "long_definition": "ICE curves display how predictions for each observation change as one feature is varied.",
+    "example": "ICE can reveal that age affects predictions differently for different groups.",
+    "common_misunderstanding": "ICE curves can be hard to read with many rows and do not prove causality.",
+    "related_terms": ["pdp", "feature_importance"]
+  },
+  {
+    "key": "shap",
+    "term": "SHAP",
+    "category": "machine learning",
+    "short_definition": "A feature attribution method that explains individual predictions.",
+    "long_definition": "SHAP values estimate how much each feature contributes to a prediction relative to a baseline. This app may mention SHAP as a future interpretability option.",
+    "example": "A SHAP value might show that high age increased one prediction.",
+    "common_misunderstanding": "SHAP explanations are not causal proof.",
+    "related_terms": ["feature_importance", "permutation_importance"]
+  },
+  {
+    "key": "prediction_probability",
+    "term": "Prediction probability",
+    "category": "prediction",
+    "short_definition": "A classifier's estimated probability for a class.",
+    "long_definition": "Prediction probabilities are model outputs that may need calibration before they can be interpreted as reliable real-world risks.",
+    "example": "A logistic model may predict a 0.72 probability of the positive class.",
+    "common_misunderstanding": "A probability above 0.5 is not always the right cutoff for action.",
+    "related_terms": ["threshold", "calibration"]
+  },
+  {
+    "key": "threshold",
+    "term": "Threshold",
+    "category": "prediction",
+    "short_definition": "A cutoff used to convert probabilities into class labels.",
+    "long_definition": "For binary classification, probabilities above the threshold are assigned to the positive class. Changing the threshold changes precision, recall, and the confusion matrix.",
+    "example": "At threshold 0.7, only cases with predicted probability at least 70% become positive predictions.",
+    "common_misunderstanding": "The default threshold of 0.5 is not always best.",
+    "related_terms": ["prediction_probability", "confusion_matrix", "f1_score"]
+  },
+  {
+    "key": "anomaly",
+    "term": "Anomaly",
+    "category": "EDA",
+    "short_definition": "An observation flagged as unusual by an algorithm or rule.",
+    "long_definition": "Anomalies are exploratory flags based on selected features and methods. They need domain review.",
+    "example": "Isolation Forest may flag a row with unusual combinations of values.",
+    "common_misunderstanding": "An anomaly is not automatically a data error.",
+    "related_terms": ["outlier", "feature_importance"]
+  },
+  {
+    "key": "influence",
+    "term": "Influence",
+    "category": "diagnostics",
+    "short_definition": "How strongly one observation affects a fitted model.",
+    "long_definition": "Influence diagnostics such as Cook's distance help identify rows that strongly affect coefficients or fitted values.",
+    "example": "One extreme row may change a regression slope noticeably.",
+    "common_misunderstanding": "Influential observations should be investigated, not automatically deleted.",
+    "related_terms": ["residual", "outlier"]
+  },
+  {
+    "key": "working_dataset",
+    "term": "Working dataset",
+    "category": "Data Preparation",
+    "short_definition": "The editable copy of the uploaded data used for cleaning, transformations, and modeling.",
+    "long_definition": "The working dataset can change after user-confirmed cleaning or transformation actions. The original uploaded dataset remains separate and immutable.",
+    "example": "After filling missing age values, the working dataset contains the filled values while the original dataset does not.",
+    "common_misunderstanding": "The working dataset is not the untouched source file.",
+    "related_terms": ["original_dataset", "imputation"]
+  },
+  {
+    "key": "original_dataset",
+    "term": "Original dataset",
+    "category": "Data Preparation",
+    "short_definition": "The untouched copy of the uploaded dataset.",
+    "long_definition": "The app stores the original dataset separately so users can reset the working dataset or compare against the source upload.",
+    "example": "If rows are dropped from the working dataset, the original dataset still keeps all uploaded rows.",
+    "common_misunderstanding": "Cleaning actions should not directly edit the original dataset.",
+    "related_terms": ["working_dataset", "missing_value"]
+  },
+  {
+    "key": "complete_case_analysis",
+    "term": "Complete-case analysis",
+    "category": "Data Preparation",
+    "short_definition": "Analyzing only rows with no missing values for the variables being used.",
+    "long_definition": "Complete-case analysis is simple, but it can reduce sample size and bias results if missingness is systematic.",
+    "example": "Dropping all rows with missing values before a regression is a complete-case approach.",
+    "common_misunderstanding": "Dropping missing rows is not always safer than imputation.",
+    "related_terms": ["missing_value", "imputation"]
+  },
+  {
+    "key": "box_cox",
+    "term": "Box-Cox transformation",
+    "category": "Data Preparation",
+    "short_definition": "A power transformation for strictly positive numeric variables.",
+    "long_definition": "Box-Cox can reduce skewness and make a variable more suitable for models that assume roughly symmetric errors or relationships.",
+    "example": "Applying Box-Cox to a positive right-skewed income variable.",
+    "common_misunderstanding": "Box-Cox cannot be applied to zero or negative values.",
+    "related_terms": ["yeo_johnson", "transformation"]
+  },
+  {
+    "key": "yeo_johnson",
+    "term": "Yeo-Johnson transformation",
+    "category": "Data Preparation",
+    "short_definition": "A power transformation that can handle zero and negative numeric values.",
+    "long_definition": "Yeo-Johnson is similar in spirit to Box-Cox but is more flexible because it can be applied when values are not strictly positive.",
+    "example": "Applying Yeo-Johnson to a skewed variable containing negative values.",
+    "common_misunderstanding": "A transformed variable is not automatically more meaningful than the original.",
+    "related_terms": ["box_cox", "transformation"]
+  },
+  {
+    "key": "interaction_term",
+    "term": "Interaction term",
+    "category": "statistical modeling",
+    "short_definition": "A feature that lets the effect of one variable depend on another variable.",
+    "long_definition": "An interaction term is often created by multiplying two predictors. It can help represent relationships where one predictor changes the association between another predictor and the target.",
+    "example": "Income times education level can test whether income relates differently to an outcome by education.",
+    "common_misunderstanding": "Interaction terms make interpretation more complex and should be added deliberately.",
+    "related_terms": ["coefficient", "feature_importance"]
+  },
+  {
+    "key": "cooks_distance",
+    "term": "Cook's distance",
+    "category": "diagnostics",
+    "short_definition": "A diagnostic for observations that strongly influence a fitted regression model.",
+    "long_definition": "Cook's distance combines residual size and leverage to flag rows that may have unusually large impact on model estimates.",
+    "example": "A point with high Cook's distance may change the fitted regression line if removed.",
+    "common_misunderstanding": "High Cook's distance is a reason to investigate, not automatically delete a row.",
+    "related_terms": ["residual", "influence", "outlier"]
+  },
+  {
+    "key": "model_run",
+    "term": "Model run",
+    "category": "machine learning",
+    "short_definition": "A saved record of one fitted model and its metadata.",
+    "long_definition": "A model run stores lightweight metadata such as target, features, model family, metrics, formulas, and notes so results can be compared and reported.",
+    "example": "One linear regression with target price and features size and location is one model run.",
+    "common_misunderstanding": "A model run summary is not the same as the fitted model artifact used for prediction.",
+    "related_terms": ["train_test_split", "feature_importance"]
+  },
+  {
+    "key": "limitations",
+    "term": "Limitations",
+    "category": "reporting",
+    "short_definition": "Important boundaries on what an analysis result can support.",
+    "long_definition": "Limitations explain assumptions, data quality concerns, missing methods, uncertainty, and why outputs should not be overinterpreted.",
+    "example": "A report may note that feature importance does not prove causality.",
+    "common_misunderstanding": "Limitations are not failures; they make analysis more transparent.",
+    "related_terms": ["confidence_interval", "feature_importance"]
+  }
+]

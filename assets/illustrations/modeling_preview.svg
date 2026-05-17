@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300" role="img" aria-label="Modeling preview illustration">
+  <rect width="520" height="300" rx="20" fill="#F8FAFC"/>
+  <rect x="34" y="32" width="452" height="236" rx="18" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="58" y="68" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#172033">Model results</text>
+  <line x1="74" y1="220" x2="430" y2="220" stroke="#CBD5E1" stroke-width="2"/>
+  <line x1="74" y1="96" x2="74" y2="220" stroke="#CBD5E1" stroke-width="2"/>
+  <path d="M78 198C128 176 151 176 190 156C234 134 258 140 300 118C344 96 382 104 426 82" fill="none" stroke="#3347B8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="118" cy="184" r="5" fill="#0F766E"/>
+  <circle cx="165" cy="164" r="5" fill="#0F766E"/>
+  <circle cx="220" cy="143" r="5" fill="#0F766E"/>
+  <circle cx="278" cy="126" r="5" fill="#0F766E"/>
+  <circle cx="342" cy="104" r="5" fill="#0F766E"/>
+  <rect x="88" y="238" width="88" height="14" rx="4" fill="#E0E7FF"/>
+  <rect x="196" y="238" width="88" height="14" rx="4" fill="#FEF3C7"/>
+  <rect x="304" y="238" width="88" height="14" rx="4" fill="#DCFCE7"/>
+</svg>

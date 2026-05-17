@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300" role="img" aria-label="Report preview illustration">
+  <rect width="520" height="300" rx="20" fill="#F8FAFC"/>
+  <rect x="72" y="28" width="376" height="244" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="104" y="70" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#172033">Analysis Report</text>
+  <rect x="104" y="92" width="248" height="12" rx="4" fill="#E0E7FF"/>
+  <rect x="104" y="122" width="312" height="10" rx="4" fill="#EEF2F7"/>
+  <rect x="104" y="144" width="280" height="10" rx="4" fill="#EEF2F7"/>
+  <rect x="104" y="166" width="304" height="10" rx="4" fill="#EEF2F7"/>
+  <rect x="104" y="206" width="88" height="38" rx="8" fill="#DBEAFE"/>
+  <rect x="216" y="206" width="88" height="38" rx="8" fill="#DCFCE7"/>
+  <rect x="328" y="206" width="64" height="38" rx="8" fill="#FEF3C7"/>
+  <circle cx="396" cy="66" r="16" fill="#3347B8"/>
+  <path d="M388 66L394 72L405 59" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

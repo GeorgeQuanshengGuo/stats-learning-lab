@@ -1,0 +1,50 @@
+[client]
+showSidebarNavigation = false
+
+[theme]
+base = "light"
+primaryColor = "#3347B8"
+backgroundColor = "#F8FAFC"
+secondaryBackgroundColor = "#EEF2F7"
+textColor = "#172033"
+linkColor = "#2557D6"
+baseRadius = "0.5rem"
+buttonRadius = "0.5rem"
+borderColor = "#CBD5E1"
+showSidebarBorder = true
+chartCategoricalColors = [
+  "#3347B8",
+  "#0F766E",
+  "#B45309",
+  "#9F1239",
+  "#6D28D9",
+  "#047857",
+  "#0369A1",
+  "#7C2D12",
+  "#475569",
+  "#0F172A"
+]
+chartSequentialColors = [
+  "#F8FAFC",
+  "#E0E7FF",
+  "#C7D2FE",
+  "#A5B4FC",
+  "#818CF8",
+  "#6366F1",
+  "#4F46E5",
+  "#4338CA",
+  "#3730A3",
+  "#312E81"
+]
+chartDivergingColors = [
+  "#9F1239",
+  "#BE123C",
+  "#F59E0B",
+  "#FDE68A",
+  "#F8FAFC",
+  "#C7D2FE",
+  "#818CF8",
+  "#4F46E5",
+  "#3730A3",
+  "#1E1B4B"
+]

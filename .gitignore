@@ -1,0 +1,45 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS and editor files
+.DS_Store
+.Rhistory
+.vscode/
+.idea/
+
+# Streamlit local runtime artifacts
+.streamlit/secrets.toml
+
+# Generated analysis outputs
+outputs/figures/*
+outputs/tables/*
+outputs/reports/*
+outputs/workspaces/*
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/reports/.gitkeep
+
+# Local model artifacts, reports, and workspace snapshots
+*.pkl
+*.pickle
+*.joblib
+*.html
+*.docx
+*.pdf
+
+# Keep source documentation and app assets even if they use export-like extensions.
+!README.md
+!docs/**/*.md
+!assets/**/*.svg

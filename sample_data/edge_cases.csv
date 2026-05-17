@@ -1,0 +1,11 @@
+Subject ID,全名分组,score value,all missing,const column,id code,date text,notes with spaces
+E001,组一,10,,1,CODE-001,2024-01-01,short note
+E002,组二,12,,1,CODE-002,2024-01-02,another note
+E003,组一,11,,1,CODE-003,not a date,this is a longer free text note
+E004,组三,,,1,CODE-004,2024-01-04,
+E005,组二,13,,1,CODE-005,2024-01-05,contains spaces in text
+E006,组一,10,,1,CODE-006,,missing date text
+E007,组三,14,,1,CODE-007,2024-01-07,edge case row
+E008,组二,12,,1,CODE-008,2024-01-08,duplicate-like score
+E009,组一,15,,1,CODE-009,2024-01-09,unicode column names
+E010,组三,13,,1,CODE-010,2024-01-10,last row

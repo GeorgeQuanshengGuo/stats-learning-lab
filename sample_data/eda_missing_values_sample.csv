@@ -1,0 +1,11 @@
+customer_id,age,city,plan,monthly_spend,last_login_days,feedback_score
+C001,29,Toronto,Basic,29.99,4,8
+C002,41,Vancouver,Pro,59.99,2,9
+C003,,Montreal,Basic,24.99,15,6
+C004,36,,Enterprise,129.99,1,10
+C005,52,Calgary,Pro,,7,8
+C006,27,Toronto,Basic,19.99,30,
+C007,44,Ottawa,Enterprise,149.99,,9
+C008,31,Vancouver,Pro,64.99,3,7
+C009,39,Montreal,,54.99,9,6
+C010,48,Calgary,Enterprise,139.99,2,10
