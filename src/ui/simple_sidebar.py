@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 import pandas as pd
@@ -66,6 +67,8 @@ NAV_GROUPS = [
     ),
 ]
 
+WORKSPACE_SNAPSHOT_ENV = "STATS_LAB_ENABLE_WORKSPACE_SNAPSHOTS"
+
 
 def build_simple_sidebar_status(session_state: dict[str, Any]) -> dict[str, Any]:
     """Build compact sidebar status values without mutating session state."""
@@ -121,6 +124,9 @@ def _render_nav_links() -> None:
 
 def _render_workspace_controls() -> None:
     """Render small save/restore controls without changing data logic."""
+    if not workspace_persistence_enabled():
+        return
+
     render_html_block('<div class="simple-sidebar-section">Workspace</div>')
     has_workspace = has_meaningful_workspace(st.session_state)
     st.session_state.setdefault("workspace_autosave_enabled", load_autosave_preference())
@@ -213,3 +219,14 @@ def render_simple_sidebar() -> None:
         _render_status(build_simple_sidebar_status(st.session_state))
         _render_workspace_controls()
         _render_nav_links()
+
+
+def workspace_persistence_enabled() -> bool:
+    """Return True only when local workspace files are explicitly enabled.
+
+    Workspace snapshots can contain uploaded data and fitted model artifacts.
+    They are useful for trusted local sessions, but should stay disabled by
+    default for public deployments such as Streamlit Community Cloud.
+    """
+    value = os.environ.get(WORKSPACE_SNAPSHOT_ENV, "")
+    return value.strip().lower() in {"1", "true", "yes", "on"}

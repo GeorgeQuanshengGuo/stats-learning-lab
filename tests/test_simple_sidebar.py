@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.ui.simple_sidebar import NAV_GROUPS, build_simple_sidebar_status
+from src.ui.simple_sidebar import NAV_GROUPS, build_simple_sidebar_status, workspace_persistence_enabled
 
 
 def test_navigation_labels_are_title_case() -> None:
@@ -46,3 +46,15 @@ def test_simple_sidebar_status_with_dataset_and_logs() -> None:
     assert "cleaning_steps" not in status
     assert "transformation_steps" not in status
     assert "model_runs" not in status
+
+
+def test_workspace_persistence_disabled_by_default(monkeypatch) -> None:
+    monkeypatch.delenv("STATS_LAB_ENABLE_WORKSPACE_SNAPSHOTS", raising=False)
+
+    assert workspace_persistence_enabled() is False
+
+
+def test_workspace_persistence_can_be_enabled_explicitly(monkeypatch) -> None:
+    monkeypatch.setenv("STATS_LAB_ENABLE_WORKSPACE_SNAPSHOTS", "true")
+
+    assert workspace_persistence_enabled() is True

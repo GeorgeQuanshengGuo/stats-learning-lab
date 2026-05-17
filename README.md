@@ -130,6 +130,7 @@ Screenshots are not committed yet. Suggested placeholders:
 - Time series, survival models, mixed effects models, robust/clustered standard errors, advanced imputation, text modeling, PDF export, and Word export are not implemented.
 - Feature importance, correlations, coefficients, and EDA relationships do not prove causality.
 - Workspace snapshots use local pickle files and should only be restored from trusted local sources.
+- Workspace save/restore is disabled by default for public deployments. For trusted local use only, set `STATS_LAB_ENABLE_WORKSPACE_SNAPSHOTS=true` before running the app.
 
 See `docs/KNOWN_LIMITATIONS.md` for the full limitation list.
 
