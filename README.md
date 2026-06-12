@@ -1,5 +1,9 @@
 # Stats Learning Lab
 
+Live demo: [Open the Streamlit app](https://stats-learning-lab.streamlit.app/)
+
+Please use synthetic or non-sensitive data only in the public demo.
+
 A local Streamlit app I built for practicing applied statistics and basic machine learning workflows. This is a personal learning project based on my current understanding of data analysis: it organizes existing Python tools such as pandas, statsmodels, scikit-learn, Plotly, and Streamlit into a guided interface for uploading data, exploring variables, trying cleaning and transformations, fitting selected models, checking diagnostics, making simple predictions, and exporting a Markdown or HTML report. It is not a new statistical framework and it is intentionally not black-box AutoML; the user still chooses the target, features, model, preprocessing options, and interpretation path.
 
 This first release should be understood as a learning-oriented starting point rather than a finished professional platform. As I continue studying and improving the project, I may add support for more topics, including time series and survival analysis.
