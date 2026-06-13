@@ -69,6 +69,9 @@ else:
         st.rerun()
 
     st.subheader("Choose a Cleaning Operation")
+    st.info(
+        "Cleaning choices can change the analysis sample. Preview the affected rows and keep the log with your report."
+    )
     operation_label = st.selectbox(
         "Operation",
         [
@@ -97,6 +100,11 @@ else:
             value="Missing",
             help="Text to insert for missing categorical values. Use a clear label that will not be confused with real categories.",
         )
+
+    if operation_label.startswith("Drop rows"):
+        st.warning("Dropping rows can change the sample. Check the previewed row count before confirming.")
+    elif operation_label.startswith("Fill"):
+        st.warning("Simple imputation can understate uncertainty. Record why this choice is reasonable for your learning analysis.")
 
     if st.button(
         "Preview cleaning operation",

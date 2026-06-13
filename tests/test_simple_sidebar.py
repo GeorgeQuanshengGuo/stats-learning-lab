@@ -11,6 +11,7 @@ def test_navigation_labels_are_title_case() -> None:
     labels = [label for _, links in NAV_GROUPS for label, _ in links]
 
     assert "Upload Data" in labels
+    assert "Analysis Plan" in labels
     assert "Machine Learning" in labels
     assert "Model Comparison" in labels
     assert all(label[0].isupper() for label in labels)

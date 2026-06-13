@@ -12,6 +12,36 @@ def export_report_html(report_context: dict[str, Any]) -> str:
     body = [
         f"<h1>{_escape(report_context.get('title', 'Analysis Report'))}</h1>",
         f"<p><strong>Generated timestamp:</strong> {_escape(report_context.get('generated_timestamp', 'Unknown'))}</p>",
+        _record_section_html(
+            "Analysis Plan",
+            report_context.get("analysis_plan"),
+            "No analysis plan was recorded before modeling.",
+        ),
+        _table_section_html(
+            "Analysis Decision Log",
+            report_context.get("analysis_decision_log"),
+            "No analysis-plan decisions have been logged.",
+        ),
+        _table_section_html(
+            "Statistical Rigor Checklist",
+            report_context.get("statistical_rigor_checklist"),
+            "No rigor checklist is available.",
+        ),
+        _record_section_html(
+            "Data Readiness Summary",
+            _readiness_record(report_context.get("data_readiness_summary")),
+            "No data readiness summary is available.",
+        ),
+        _table_section_html(
+            "Rigor Warnings",
+            report_context.get("rigor_warnings"),
+            "No additional rigor warnings were recorded.",
+        ),
+        _record_section_html(
+            "Reproducibility Manifest",
+            report_context.get("reproducibility_manifest"),
+            "No reproducibility manifest is available.",
+        ),
         _dataset_overview_html(report_context.get("dataset_overview")),
         _record_section_html(
             "Working Dataset Status",
@@ -309,6 +339,13 @@ def _record_section_html(title: str, record: dict[str, Any] | None, empty_text: 
     """Render one dictionary as an HTML section."""
     records = [record] if record else None
     return _table_section_html(title, records, empty_text)
+
+
+def _readiness_record(readiness: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Return a compact readiness record without the full missingness table."""
+    if not readiness:
+        return None
+    return {key: value for key, value in readiness.items() if key != "missing_summary"}
 
 
 def _records_to_html_table(records: list[dict[str, Any]]) -> str:

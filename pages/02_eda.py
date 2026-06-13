@@ -3,6 +3,8 @@
 import pandas as pd
 import streamlit as st
 
+from src.core.analysis_plan import analysis_plan_is_recorded
+from src.core.rigor import build_data_readiness
 from src.core.state import apply_transformation_result
 from src.eda.correlation import (
     build_correlation_matrix,
@@ -137,12 +139,27 @@ working_df = st.session_state.get("working_df")
 if working_df is None:
     render_dataset_required_empty_state()
 else:
+    analysis_plan = st.session_state.get("analysis_plan")
+    if not analysis_plan_is_recorded(analysis_plan):
+        st.info("You can still explore, but define an analysis plan before interpreting model results.")
+
     st.subheader("Dataset Overview")
     st.json(dataset_overview(working_df))
 
     st.subheader("Column Summary")
     summary = build_summary_table(working_df)
     st.dataframe(summary, use_container_width=True)
+    if analysis_plan and analysis_plan.get("target_variable") in working_df.columns:
+        target = analysis_plan["target_variable"]
+        readiness = build_data_readiness(working_df, target_column=target, schema=summary)
+        target_type = summary.loc[summary["variable"] == target, "detected_type"].iloc[0]
+        st.caption(f"Planned target from Analysis Plan: {target} ({target_type})")
+        if readiness.get("id_like_columns"):
+            st.warning(
+                "ID-like columns were detected. Avoid using identifiers as predictors unless they have a clear analytical meaning."
+            )
+        if readiness.get("datetime_columns") and "random" in str(analysis_plan.get("train_test_strategy", "")).lower():
+            st.warning("The plan mentions a random split while datetime columns exist. For time-dependent data, consider time-ordered validation.")
 
     st.subheader("Variable Plot")
     selected_variable = st.selectbox(

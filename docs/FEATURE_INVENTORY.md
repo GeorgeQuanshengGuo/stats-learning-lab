@@ -1,6 +1,6 @@
 # Feature Inventory
 
-Last updated: 2026-05-17
+Last updated: 2026-06-13
 
 This document records the current implemented feature surface for Stats Learning Lab, a Streamlit learning app for practicing statistics and machine learning workflows. Status labels:
 
@@ -15,6 +15,7 @@ This document records the current implemented feature surface for Stats Learning
 |---|---|---:|---|
 | `app.py` | Home page, app initialization, shared sidebar, landing workflow, quick status | implemented | Home page has been simplified. Workspace save/restore controls live in the sidebar. |
 | `pages/01_upload_data.py` | Upload CSV, XLSX, XLS files and create `original_df` plus `working_df` | implemented | `original_df` and `working_df` are stored as deep copies. |
+| `pages/02_analysis_plan.py` | Records the analysis question, goal, target/features, planned strategy, assumptions, interpretation boundaries, and decision log | implemented | Advisory workflow page. It does not block EDA or modeling and does not modify data. |
 | `pages/02_eda.py` | Univariate EDA, missing summaries, charts, correlation, relationship explorer, target-aware EDA, EDA outliers | implemented | Broad feature set. Complex UI paths still need manual smoke testing with varied datasets. |
 | `pages/03_data_cleaning.py` | Preview and confirm missing-value cleaning operations | implemented | Updates `working_df` only after confirmation and writes `cleaning_log`. |
 | `pages/04_transformations.py` | Manual transformations, target transformations, suggestions, logs | implemented | Adds new columns only after confirmation. No automatic transformation application. |
@@ -31,11 +32,25 @@ This document records the current implemented feature surface for Stats Learning
 | Feature / Module | Status | Notes |
 |---|---:|---|
 | `src/core/state.py` | implemented | Initializes session keys and protects `original_df` by only applying confirmed changes to `working_df`. |
+| `src/core/analysis_plan.py` | implemented | Creates, normalizes, updates, and logs changes to the user-recorded analysis plan. |
+| `src/core/rigor.py` | implemented | Builds data readiness checks, model readiness checks, rigor checklist rows, and report reproducibility manifests. |
 | `src/core/model_run.py` | implemented | Unified lightweight ModelRun structure. |
 | `src/core/model_artifacts.py` | implemented | Session-only fitted artifact registry keyed by ModelRun `run_id`. |
 | `src/core/model_comparison.py` | implemented | Builds task-specific comparison tables. |
 | `src/core/workspace_snapshot.py` | implemented | Local manual save, optional autosave, restore prompt, and start-fresh behavior. |
 | Workspace snapshot persistence | partially implemented | Uses pickle for trusted local app snapshots. It is not a secure exchange format for untrusted files. |
+
+## Analysis Rigor Workflow
+
+| Feature / Module | Status | Notes |
+|---|---:|---|
+| Analysis Plan page | implemented | Lets users record the purpose, research question, target, candidate features, excluded columns, planned strategy, assumptions, and interpretation boundaries before modeling. |
+| Analysis decision log | implemented | Plan edits append timestamped entries with section, old value, new value, and reason. |
+| Rigor checklist | implemented | Advisory checklist covers research question, data understanding, missing data, modeling readiness, diagnostics, and interpretation. |
+| Data readiness checks | implemented | Flags duplicate rows, missingness, constant columns, ID-like columns, high-cardinality columns, datetime columns, and target missing/unique counts. |
+| Model readiness checks | implemented | Flags ID-like predictors, predictors versus rows, high-cardinality predictors, rare classes, missing target values, datetime/random split risk, possible leakage names, and count-target issues. |
+| Report reproducibility manifest | implemented | Report context includes app version, generated time, file name, original/working dimensions, plan fields, logs, split/model metadata, package versions, and limitations. |
+| Advisory guardrails | partially implemented | EDA, Cleaning, Transformations, Statistical Models, Machine Learning, Prediction, and Report show conservative warnings. These are guidance only and do not block user actions. |
 
 ## Upload
 
@@ -182,7 +197,7 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.80s
 ```
 
 The warning is a joblib/loky CPU-core detection warning during clustering tests. It does not fail the suite.

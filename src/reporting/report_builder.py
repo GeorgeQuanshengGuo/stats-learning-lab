@@ -7,12 +7,18 @@ from typing import Any
 
 import pandas as pd
 
+from src.core.analysis_plan import analysis_plan_is_recorded
 from src.core.model_comparison import (
     build_binary_classification_comparison_table,
     build_count_regression_comparison_table,
     build_multiclass_classification_comparison_table,
     build_ordinal_classification_comparison_table,
     build_regression_comparison_table,
+)
+from src.core.rigor import (
+    build_data_readiness,
+    build_reproducibility_manifest,
+    build_rigor_checklist,
 )
 from src.eda.missing import build_missing_table
 from src.eda.summary import build_summary_table
@@ -64,6 +70,8 @@ INTERVAL_AND_COEFFICIENT_NOTES = [
 
 def build_report_context(
     working_df: pd.DataFrame | None = None,
+    original_df: pd.DataFrame | None = None,
+    uploaded_file_name: str | None = None,
     schema: pd.DataFrame | None = None,
     missing_table: pd.DataFrame | None = None,
     cleaning_log: list[dict[str, Any]] | None = None,
@@ -71,6 +79,9 @@ def build_report_context(
     model_runs: list[dict[str, Any]] | None = None,
     model_artifacts: dict[str, dict[str, Any]] | list[dict[str, Any]] | None = None,
     prediction_log: list[dict[str, Any]] | None = None,
+    analysis_plan: dict[str, Any] | None = None,
+    analysis_decision_log: list[dict[str, Any]] | None = None,
+    rigor_warnings: list[dict[str, Any]] | None = None,
     title: str = "Analysis Report",
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
@@ -79,10 +90,37 @@ def build_report_context(
     generated_at = generated_at or datetime.now(timezone.utc)
     schema_summary = _schema_summary(working_df, schema)
     missing_summary = _missing_summary(working_df, missing_table)
+    target_column = (analysis_plan or {}).get("target_variable")
+    report_analysis_plan = analysis_plan if analysis_plan_is_recorded(analysis_plan) else {}
+    data_readiness = build_data_readiness(working_df, target_column=target_column, schema=schema)
+    rigor_checklist = build_rigor_checklist(
+        analysis_plan=analysis_plan,
+        working_df=working_df,
+        cleaning_log=cleaning_log,
+        transformation_log=transformation_log,
+        model_runs=model_runs,
+        prediction_log=prediction_log,
+    )
+    generated_timestamp = generated_at.isoformat()
 
     return {
         "title": title,
-        "generated_timestamp": generated_at.isoformat(),
+        "generated_timestamp": generated_timestamp,
+        "analysis_plan": report_analysis_plan,
+        "analysis_decision_log": list(analysis_decision_log or []),
+        "statistical_rigor_checklist": rigor_checklist,
+        "data_readiness_summary": data_readiness,
+        "rigor_warnings": list(rigor_warnings or []),
+        "reproducibility_manifest": build_reproducibility_manifest(
+            working_df=working_df,
+            original_df=original_df,
+            uploaded_file_name=uploaded_file_name,
+            analysis_plan=analysis_plan,
+            cleaning_log=cleaning_log,
+            transformation_log=transformation_log,
+            model_runs=model_runs,
+            generated_at=generated_timestamp,
+        ),
         "dataset_overview": _dataset_overview(working_df),
         "working_dataset_status": _working_dataset_status(
             working_df=working_df,

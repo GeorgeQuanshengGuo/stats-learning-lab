@@ -3,8 +3,10 @@
 import pandas as pd
 import streamlit as st
 
+from src.core.analysis_plan import analysis_plan_is_recorded
 from src.core.model_artifacts import initialize_model_artifacts
 from src.core.model_run import add_model_run_to_session, get_model_runs
+from src.core.rigor import build_model_readiness
 from src.core.state import apply_transformation_result
 from src.eda.summary import build_summary_table
 from src.modeling.interpretability.calibration import (
@@ -213,6 +215,18 @@ def _save_model_runs(results: list[dict]) -> None:
     """Save each returned ModelRun into Streamlit session state."""
     for result in results:
         add_model_run_to_session(result["model_run"])
+
+
+def _attach_validation_metadata(results: list[dict], readiness: dict) -> None:
+    """Store advisory validation metadata in each returned ModelRun."""
+    for result in results:
+        model_run = result.get("model_run", {})
+        preprocessing = model_run.setdefault("preprocessing", {})
+        preprocessing["validation_readiness"] = readiness
+        warnings = readiness.get("warnings") or []
+        if warnings:
+            existing_notes = model_run.get("notes", "")
+            model_run["notes"] = f"{existing_notes} Validation notes: {' '.join(warnings)}".strip()
 
 
 def _feature_importance_table(result: dict) -> pd.DataFrame:
@@ -956,6 +970,9 @@ working_df = st.session_state.get("working_df")
 if working_df is None:
     render_dataset_required_empty_state()
 else:
+    if not analysis_plan_is_recorded(st.session_state.get("analysis_plan")):
+        st.info("No analysis plan has been recorded. Predictive results are still usable, but define the goal before choosing a final model.")
+    st.caption("Reminder: predictive performance is not the same as statistical explanation or causality.")
     summary = build_summary_table(working_df)
 
     task_type = st.radio(
@@ -1071,6 +1088,16 @@ else:
                 key="ml_regression_features",
                 help="Choose predictor columns. Preprocessing for these features is fit inside each model Pipeline.",
             )
+            regression_readiness = build_model_readiness(
+                working_df,
+                target_column=target_column,
+                feature_columns=feature_columns,
+                task_type="regression",
+                split_strategy="random",
+                schema=summary,
+            )
+            for warning in regression_readiness.get("warnings", []):
+                st.warning(warning)
 
             st.subheader("Models")
             tuning_options = _tuning_controls(
@@ -1130,6 +1157,7 @@ else:
                     except Exception as error:
                         st.error(f"Could not run regression baselines: {error}")
                     else:
+                        _attach_validation_metadata(results, regression_readiness)
                         _save_model_runs(results)
                         st.session_state["latest_ml_regression_results"] = results
                         st.success("Regression results were saved for Model Comparison.")
@@ -1173,6 +1201,16 @@ else:
                 key="ml_classification_features",
                 help="Choose predictor columns. Preprocessing for these features is fit inside each model Pipeline.",
             )
+            classification_readiness = build_model_readiness(
+                working_df,
+                target_column=target_column,
+                feature_columns=feature_columns,
+                task_type="binary_classification",
+                split_strategy="random",
+                schema=summary,
+            )
+            for warning in classification_readiness.get("warnings", []):
+                st.warning(warning)
 
             st.subheader("Models")
             tuning_options = _tuning_controls(
@@ -1234,6 +1272,7 @@ else:
                     except Exception as error:
                         st.error(f"Could not run binary classification baselines: {error}")
                     else:
+                        _attach_validation_metadata(results, classification_readiness)
                         _save_model_runs(results)
                         st.session_state["latest_ml_classification_results"] = results
                         st.success("Binary classification results were saved for Model Comparison.")

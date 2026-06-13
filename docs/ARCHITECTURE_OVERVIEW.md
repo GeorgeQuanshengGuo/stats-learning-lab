@@ -16,6 +16,7 @@
 │   └── VALIDATION_STATUS.md
 ├── pages/
 │   ├── 01_upload_data.py
+│   ├── 02_analysis_plan.py
 │   ├── 02_eda.py
 │   ├── 03_data_cleaning.py
 │   ├── 04_transformations.py
@@ -32,9 +33,12 @@
 │   └── regression_sample.csv
 ├── src/
 │   ├── core/
+│   │   ├── analysis_plan.py
 │   │   ├── model_artifacts.py
 │   │   ├── model_comparison.py
 │   │   ├── model_run.py
+│   │   ├── rigor.py
+│   │   ├── workspace_snapshot.py
 │   │   └── state.py
 │   ├── data/
 │   │   ├── cleaning.py
@@ -126,29 +130,31 @@
 ## Data Flow
 
 ```text
-upload -> EDA -> cleaning -> transformations -> modeling -> model comparison -> prediction -> diagnostics -> report export
+upload -> analysis plan -> EDA -> cleaning -> transformations -> modeling -> model comparison -> prediction -> diagnostics -> report export
 ```
 
 1. Upload stores two deep copies of the uploaded dataset:
    - `original_df`: immutable source copy.
    - `working_df`: editable analysis copy.
-2. EDA reads `working_df` and computes summaries, missingness, univariate plots, target-aware relationship summaries, correlation matrices, relationship explorer tables/plots, and EDA-level outlier detection.
-3. Cleaning previews a new DataFrame, then updates `working_df` only after confirmation.
-4. Transformations preview a new DataFrame with new columns, then update `working_df` only after confirmation.
-5. Statistical modeling reads `working_df`, prepares train/test data, fits statsmodels models, saves lightweight ModelRuns, and saves fitted artifacts when prediction is supported.
-6. Machine learning reads `working_df`, splits data before fitting, fits sklearn Pipelines, optionally computes CV and interpretability outputs, saves lightweight ModelRuns, and saves fitted Pipelines as artifacts.
-7. PCA reads selected numeric features from `working_df` for exploratory dimension reduction. It does not change `working_df` unless the user confirms adding PC score columns.
-8. Clustering reads selected numeric features from `working_df` for exploratory grouping. It does not change `working_df` unless the user confirms adding cluster labels.
-9. Anomaly Detection reads selected numeric features from `working_df` for exploratory unusual-observation flags. It does not change `working_df` unless the user confirms adding an anomaly flag column.
-10. Model Comparison reads `session_state["model_runs"]` and displays task-specific comparison tables.
-11. Prediction Console reads `session_state["model_runs"]` plus `session_state["model_artifacts"]` and predicts from saved fitted objects.
-12. Model Diagnostics reads saved runs and artifacts for overfitting, multicollinearity, CV stability, learning curves, and OLS influence diagnostics where available.
-13. Report Export reads the current session state and creates Markdown/HTML summaries.
+2. Analysis Plan records the user's research question, goal, target/features, intended strategy, assumptions, and interpretation boundaries. It updates only analysis-plan session keys and never changes data.
+3. EDA reads `working_df` and computes summaries, missingness, univariate plots, target-aware relationship summaries, correlation matrices, relationship explorer tables/plots, EDA-level outlier detection, and advisory data readiness checks.
+4. Cleaning previews a new DataFrame, then updates `working_df` only after confirmation.
+5. Transformations preview a new DataFrame with new columns, then update `working_df` only after confirmation.
+6. Statistical modeling reads `working_df`, prepares train/test data, shows advisory model readiness checks, fits statsmodels models, saves lightweight ModelRuns, and saves fitted artifacts when prediction is supported.
+7. Machine learning reads `working_df`, splits data before fitting, shows advisory model readiness checks, fits sklearn Pipelines, optionally computes CV and interpretability outputs, saves lightweight ModelRuns, and saves fitted Pipelines as artifacts.
+8. PCA reads selected numeric features from `working_df` for exploratory dimension reduction. It does not change `working_df` unless the user confirms adding PC score columns.
+9. Clustering reads selected numeric features from `working_df` for exploratory grouping. It does not change `working_df` unless the user confirms adding cluster labels.
+10. Anomaly Detection reads selected numeric features from `working_df` for exploratory unusual-observation flags. It does not change `working_df` unless the user confirms adding an anomaly flag column.
+11. Model Comparison reads `session_state["model_runs"]` and displays task-specific comparison tables, including validation warnings where available.
+12. Prediction Console reads `session_state["model_runs"]` plus `session_state["model_artifacts"]` and predicts from saved fitted objects.
+13. Model Diagnostics reads saved runs and artifacts for overfitting, multicollinearity, CV stability, learning curves, and OLS influence diagnostics where available.
+14. Report Export reads the current session state and creates Markdown/HTML summaries, including the analysis plan, decision log, rigor checklist, data readiness summary, warnings, and reproducibility manifest.
 
 ## State Boundaries
 
 - `original_df` is immutable after upload.
 - `working_df` changes only through confirmed cleaning or transformation operations.
+- `analysis_plan`, `analysis_decision_log`, `rigor_warnings`, and `analysis_stage_status` store advisory workflow metadata and do not change the data.
 - Modeling and prediction must not mutate either DataFrame.
 - ModelRun metadata lives in `session_state["model_runs"]`.
 - Fitted model objects live only in `session_state["model_artifacts"]`.
@@ -205,6 +211,10 @@ Prediction lives under `src/prediction/`:
 - `src/core/state.py`
   - Use `working_df` as the analysis input.
   - Never mutate `original_df`.
+- `src/core/analysis_plan.py`
+  - Use `create_analysis_plan()`, `update_analysis_plan()`, and `analysis_plan_is_recorded()` for plan state.
+- `src/core/rigor.py`
+  - Use `build_data_readiness()`, `build_model_readiness()`, `build_rigor_checklist()`, and `build_reproducibility_manifest()` for advisory workflow checks and report context.
 - `src/core/model_run.py`
   - Use `create_model_run()` and `add_model_run_to_session()` for every saved model result.
 - `src/core/model_artifacts.py`

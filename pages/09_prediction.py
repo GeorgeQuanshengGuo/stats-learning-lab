@@ -385,6 +385,7 @@ render_educational_page_header(
     next_page="pages/08_report.py",
     tags=["Prediction", "Saved models"],
 )
+st.info("Prediction output is a model result, not a decision rule. Review assumptions, calibration, and uncertainty before acting on it.")
 
 model_runs = get_model_runs()
 model_artifacts = initialize_model_artifacts()

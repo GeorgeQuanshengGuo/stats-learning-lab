@@ -63,6 +63,7 @@ def build_regression_comparison_table(model_runs: list[dict[str, Any]]) -> pd.Da
                 "tuning_scoring": tuning.get("scoring"),
                 "best_cv_score": tuning.get("best_cv_score"),
                 "tuning_runtime_seconds": tuning.get("runtime_seconds"),
+                "validation_warnings": _validation_warning_text(run),
             }
         )
     return pd.DataFrame(rows)
@@ -116,6 +117,7 @@ def build_binary_classification_comparison_table(model_runs: list[dict[str, Any]
                 "tuning_scoring": tuning.get("scoring"),
                 "best_cv_score": tuning.get("best_cv_score"),
                 "tuning_runtime_seconds": tuning.get("runtime_seconds"),
+                "validation_warnings": _validation_warning_text(run),
             }
         )
     return pd.DataFrame(rows)
@@ -272,6 +274,13 @@ def _metric_value(metrics: dict[str, Any], *keys: str) -> Any:
 def _tuning_lookup(run: dict[str, Any]) -> dict[str, Any]:
     """Return tuning metadata when a ModelRun was created by a search."""
     return (run.get("preprocessing") or {}).get("tuning") or {}
+
+
+def _validation_warning_text(run: dict[str, Any]) -> str:
+    """Return compact validation warning text from ModelRun metadata."""
+    readiness = (run.get("preprocessing") or {}).get("validation_readiness") or {}
+    warnings = readiness.get("warnings", []) if isinstance(readiness, dict) else []
+    return " ".join(str(warning) for warning in warnings)
 
 
 def _feature_text(features: list[str]) -> str:

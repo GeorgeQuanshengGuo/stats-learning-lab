@@ -15,6 +15,48 @@ def export_report_markdown(report_context: dict[str, Any]) -> str:
         "",
     ]
 
+    lines.extend(
+        _record_section(
+            "Analysis Plan",
+            report_context.get("analysis_plan"),
+            "No analysis plan was recorded before modeling.",
+        )
+    )
+    lines.extend(
+        _table_section(
+            "Analysis Decision Log",
+            report_context.get("analysis_decision_log"),
+            "No analysis-plan decisions have been logged.",
+        )
+    )
+    lines.extend(
+        _table_section(
+            "Statistical Rigor Checklist",
+            report_context.get("statistical_rigor_checklist"),
+            "No rigor checklist is available.",
+        )
+    )
+    lines.extend(
+        _record_section(
+            "Data Readiness Summary",
+            _readiness_record(report_context.get("data_readiness_summary")),
+            "No data readiness summary is available.",
+        )
+    )
+    lines.extend(
+        _table_section(
+            "Rigor Warnings",
+            report_context.get("rigor_warnings"),
+            "No additional rigor warnings were recorded.",
+        )
+    )
+    lines.extend(
+        _record_section(
+            "Reproducibility Manifest",
+            report_context.get("reproducibility_manifest"),
+            "No reproducibility manifest is available.",
+        )
+    )
     lines.extend(_dataset_overview_section(report_context.get("dataset_overview")))
     lines.extend(
         _record_section(
@@ -318,6 +360,13 @@ def _record_section(title: str, record: dict[str, Any] | None, empty_text: str) 
     """Render one dictionary as a one-row table section."""
     records = [record] if record else None
     return _table_section(title, records, empty_text)
+
+
+def _readiness_record(readiness: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Return a compact readiness record without the full missingness table."""
+    if not readiness:
+        return None
+    return {key: value for key, value in readiness.items() if key != "missing_summary"}
 
 
 def _records_to_markdown_table(records: list[dict[str, Any]]) -> str:

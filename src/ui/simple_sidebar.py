@@ -33,6 +33,7 @@ NAV_GROUPS = [
         [
             ("Home", "app.py"),
             ("Upload Data", "pages/01_upload_data.py"),
+            ("Analysis Plan", "pages/02_analysis_plan.py"),
         ],
     ),
     (

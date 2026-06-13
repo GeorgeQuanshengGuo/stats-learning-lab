@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from src.core.model_run import create_model_run
+from src.core.analysis_plan import create_analysis_plan
 from src.reporting.export_html import export_report_html
 from src.reporting.export_markdown import export_report_markdown
 from src.reporting.report_builder import build_report_context, summarize_model_runs
@@ -134,16 +135,40 @@ def test_build_report_context_includes_dataset_schema_missing_logs_and_models():
 
     context = build_report_context(
         working_df=data,
+        original_df=data,
+        uploaded_file_name="synthetic.csv",
         cleaning_log=cleaning_log,
         transformation_log=transformation_log,
         model_runs=[model_run],
         model_artifacts=_sample_model_artifacts(),
         prediction_log=_sample_prediction_log(),
+        analysis_plan=create_analysis_plan(
+            research_question="What predicts y?",
+            analysis_goal="prediction",
+            target_variable="y",
+            candidate_features=["x", "group"],
+            interpretation_boundaries="Associations only.",
+            now="2026-05-16T00:00:00+00:00",
+        ),
+        analysis_decision_log=[
+            {
+                "timestamp": "2026-05-16T00:00:00+00:00",
+                "section": "research_question",
+                "old_value": "",
+                "new_value": "What predicts y?",
+                "reason": "Initial plan.",
+            }
+        ],
         title="Demo Report",
         generated_at=datetime(2026, 5, 16, tzinfo=timezone.utc),
     )
 
     assert context["title"] == "Demo Report"
+    assert context["analysis_plan"]["target_variable"] == "y"
+    assert context["analysis_decision_log"]
+    assert context["statistical_rigor_checklist"]
+    assert context["data_readiness_summary"]["row_count"] == 3
+    assert context["reproducibility_manifest"]["uploaded_file_name"] == "synthetic.csv"
     assert context["dataset_overview"]["rows"] == 3
     assert context["dataset_overview"]["columns"] == 3
     assert context["dataset_overview"]["column_names"] == ["y", "x", "group"]
@@ -238,6 +263,8 @@ def test_markdown_export_contains_expected_sections_and_honest_empty_text():
     assert "No dataset is currently loaded." in markdown
     assert "No cleaning operations have been logged." in markdown
     assert "No saved model runs are available." in markdown
+    assert "No analysis plan was recorded before modeling." in markdown
+    assert "Reproducibility Manifest" in markdown
     assert "## Limitations" in markdown
 
 
@@ -256,6 +283,10 @@ def test_markdown_export_includes_model_metrics_and_comparison_summary():
     assert "cv_rmse_mean" in markdown
     assert "AIC" in markdown
     assert "Model Comparison Summary" in markdown
+    assert "Analysis Plan" in markdown
+    assert "Statistical Rigor Checklist" in markdown
+    assert "Data Readiness Summary" in markdown
+    assert "Reproducibility Manifest" in markdown
     assert "#### Model Formula" in markdown
     assert "#### Estimated Formula" in markdown
     assert "#### Coefficient Table" in markdown
@@ -283,6 +314,9 @@ def test_html_export_contains_expected_sections_and_escapes_content():
     assert "<!doctype html>" in html
     assert "<h1>HTML Report</h1>" in html
     assert "Dataset Overview" in html
+    assert "Analysis Plan" in html
+    assert "Statistical Rigor Checklist" in html
+    assert "Reproducibility Manifest" in html
     assert "linear_regression_ols" in html
     assert "&lt;fill&gt;" in html
     assert "Model Formula" in html

@@ -1,6 +1,6 @@
 # Current Progress
 
-Last updated: 2026-05-17
+Last updated: 2026-06-13
 
 This is the quick-start status note for a fresh Codex session. Read this first, then use `PROJECT_HANDOFF.md` and `ARCHITECTURE_OVERVIEW.md` for deeper context.
 
@@ -11,6 +11,9 @@ The app is a Streamlit-based learning tool for practicing applied statistics and
 - CSV/XLSX/XLS upload
 - immutable `original_df`
 - editable analysis copy in `working_df`
+- analysis planning before modeling, with an analysis decision log
+- advisory statistical rigor checklist
+- reusable data readiness and model readiness checks
 - EDA summaries, missingness tables, univariate plots, target-aware EDA, correlation matrix, relationship explorer, and EDA-level outlier detection
 - missing-value cleaning with user confirmation and logs
 - feature transformations, target transformations, and transformation suggestions
@@ -39,6 +42,7 @@ The app is a Streamlit-based learning tool for practicing applied statistics and
 - empirical bootstrap uncertainty intervals for ML regression predictions
 - rule-based model interpretation
 - Markdown and HTML report export
+- reproducibility manifest in reports, including plan, logs, split/model metadata, package versions, and limitations
 - a Model Diagnostics page for overfitting, multicollinearity, learning-curve, and OLS influence diagnostics
 
 Feature-stage development is currently paused. The next session should treat the repository as a stabilization/documentation handoff point unless the user explicitly resumes feature work.
@@ -46,6 +50,7 @@ Feature-stage development is currently paused. The next session should treat the
 ## Streamlit Pages
 
 - `pages/01_upload_data.py`: upload data and initialize `original_df` / `working_df`.
+- `pages/02_analysis_plan.py`: record the analysis question, goal, target/features, planned strategy, assumptions, interpretation boundaries, and decision log.
 - `pages/02_eda.py`: dataset overview, summary tables, univariate EDA, missingness, and target-aware EDA.
 - `pages/03_data_cleaning.py`: preview and confirm missing-value cleaning operations.
 - `pages/04_transformations.py`: create new transformed variables and transformed targets.
@@ -60,6 +65,7 @@ Feature-stage development is currently paused. The next session should treat the
 
 - `original_df` must never be modified after upload.
 - Cleaning and transformations update only `working_df`, and only after user confirmation.
+- Analysis planning updates only `analysis_plan` and `analysis_decision_log`; it must not modify `original_df` or `working_df`.
 - Modeling reads `working_df` but must not modify it.
 - Fitted objects belong in `session_state["model_artifacts"]`, not in ModelRun exports.
 - ModelRun entries must remain lightweight metadata for display, comparison, and reports.
@@ -72,6 +78,8 @@ Feature-stage development is currently paused. The next session should treat the
 ## Core Modules
 
 - `src/core/state.py`: session-state lifecycle and data immutability helpers.
+- `src/core/analysis_plan.py`: analysis plan creation, normalization, update, and decision-log helpers.
+- `src/core/rigor.py`: statistical rigor checklist, data readiness checks, model readiness checks, and reproducibility manifest helpers.
 - `src/core/model_run.py`: unified lightweight ModelRun creation and session storage.
 - `src/core/model_artifacts.py`: session-only fitted model artifact registry.
 - `src/core/model_comparison.py`: comparison tables for saved runs across regression, binary, multiclass, ordinal, and count tasks.
@@ -169,7 +177,7 @@ python3 -m pytest
 Latest result:
 
 ```text
-282 passed, 1 warning in 4.82s
+384 passed, 1 warning in 6.80s
 ```
 
 The warning is a non-fatal joblib/loky CPU core detection warning from ML tests.
@@ -188,7 +196,6 @@ The local environment does not currently provide a `python` command, so use `pyt
 - ML classification probability uncertainty is not implemented.
 - Reports export only Markdown and HTML; PDF and Word export are not implemented.
 - Saved runs and fitted artifacts live only in Streamlit session state and are not persisted to disk.
-- The folder is not currently a git repository.
 
 ## Recommended Next Task
 

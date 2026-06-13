@@ -21,6 +21,10 @@ def init_session_state() -> None:
     st.session_state.setdefault("transformation_log", [])
     st.session_state.setdefault("model_runs", [])
     st.session_state.setdefault("prediction_log", [])
+    st.session_state.setdefault("analysis_plan", None)
+    st.session_state.setdefault("analysis_decision_log", [])
+    st.session_state.setdefault("rigor_warnings", [])
+    st.session_state.setdefault("analysis_stage_status", {})
     st.session_state.setdefault("pca_artifacts", [])
     st.session_state.setdefault("clustering_artifacts", [])
     st.session_state.setdefault("anomaly_artifacts", [])
@@ -35,6 +39,10 @@ def set_uploaded_data(data: pd.DataFrame) -> None:
     st.session_state["cleaning_log"] = []
     st.session_state["transformation_log"] = []
     st.session_state["prediction_log"] = []
+    st.session_state["analysis_plan"] = None
+    st.session_state["analysis_decision_log"] = []
+    st.session_state["rigor_warnings"] = []
+    st.session_state["analysis_stage_status"] = {}
     st.session_state["pca_artifacts"] = []
     st.session_state["clustering_artifacts"] = []
     st.session_state["anomaly_artifacts"] = []

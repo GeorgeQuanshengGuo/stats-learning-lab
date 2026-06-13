@@ -3,8 +3,10 @@
 import pandas as pd
 import streamlit as st
 
+from src.core.analysis_plan import analysis_plan_is_recorded
 from src.core.model_artifacts import save_model_artifact
 from src.core.model_run import add_model_run_to_session, create_model_run, get_model_runs
+from src.core.rigor import build_model_readiness
 from src.data.transformations import inverse_transform_values
 from src.eda.summary import build_summary_table
 from src.modeling.statistical.linear_regression import (
@@ -496,6 +498,9 @@ working_df = st.session_state.get("working_df")
 if working_df is None:
     render_dataset_required_empty_state()
 else:
+    if not analysis_plan_is_recorded(st.session_state.get("analysis_plan")):
+        st.info("No analysis plan has been recorded. You can fit models, but interpret p-values and coefficients as exploratory.")
+    st.caption("Reminder: p-values are not effect sizes, and coefficients are associations unless study design supports causality.")
     summary = build_summary_table(working_df)
     linear_tab, logistic_tab, multinomial_tab, ordinal_tab, count_tab, runs_tab = st.tabs(
         [
@@ -530,6 +535,17 @@ else:
                 key="linear_x",
                 help="Choose one or more predictors. Categorical predictors are one-hot encoded for the model.",
             )
+            if x_columns:
+                readiness = build_model_readiness(
+                    working_df,
+                    target_column=y_column,
+                    feature_columns=x_columns,
+                    task_type="regression",
+                    split_strategy="random",
+                    schema=summary,
+                )
+                for warning in readiness.get("warnings", []):
+                    st.warning(warning)
             test_size = st.slider(
                 "Test split ratio",
                 min_value=0.1,
@@ -738,6 +754,17 @@ else:
                 key="logistic_x",
                 help="Choose predictors for the logistic regression model. Categorical predictors are one-hot encoded.",
             )
+            if x_columns:
+                readiness = build_model_readiness(
+                    working_df,
+                    target_column=y_column,
+                    feature_columns=x_columns,
+                    task_type="binary_classification",
+                    split_strategy="random",
+                    schema=summary,
+                )
+                for warning in readiness.get("warnings", []):
+                    st.warning(warning)
             test_size = st.slider(
                 "Test split ratio",
                 min_value=0.1,
@@ -1128,6 +1155,17 @@ else:
                 key="count_x",
                 help="Choose predictors for the count regression model.",
             )
+            if x_columns:
+                readiness = build_model_readiness(
+                    working_df,
+                    target_column=y_column,
+                    feature_columns=x_columns,
+                    task_type="count_regression",
+                    split_strategy="random",
+                    schema=summary,
+                )
+                for warning in readiness.get("warnings", []):
+                    st.warning(warning)
             test_size = st.slider(
                 "Test split ratio",
                 min_value=0.1,

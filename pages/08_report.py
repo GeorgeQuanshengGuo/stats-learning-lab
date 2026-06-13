@@ -24,12 +24,17 @@ render_educational_page_header(
 )
 
 working_df = st.session_state.get("working_df")
+original_df = st.session_state.get("original_df")
+uploaded_file_name = st.session_state.get("uploaded_file_name")
 schema = st.session_state.get("schema")
 cleaning_log = st.session_state.get("cleaning_log", [])
 transformation_log = st.session_state.get("transformation_log", [])
 model_runs = st.session_state.get("model_runs", [])
 model_artifacts = st.session_state.get("model_artifacts", {})
 prediction_log = st.session_state.get("prediction_log", [])
+analysis_plan = st.session_state.get("analysis_plan")
+analysis_decision_log = st.session_state.get("analysis_decision_log", [])
+rigor_warnings = st.session_state.get("rigor_warnings", [])
 
 if working_df is None:
     render_empty_state(
@@ -48,12 +53,17 @@ report_title = st.text_input(
 
 report_context = build_report_context(
     working_df=working_df,
+    original_df=original_df,
+    uploaded_file_name=uploaded_file_name,
     schema=schema,
     cleaning_log=cleaning_log,
     transformation_log=transformation_log,
     model_runs=model_runs,
     model_artifacts=model_artifacts,
     prediction_log=prediction_log,
+    analysis_plan=analysis_plan,
+    analysis_decision_log=analysis_decision_log,
+    rigor_warnings=rigor_warnings,
     title=report_title,
 )
 markdown_report = export_report_markdown(report_context)
