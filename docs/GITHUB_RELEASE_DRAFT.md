@@ -64,7 +64,7 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.42s
 ```
 
 The warning is from `joblib/loky` CPU-core detection during clustering tests. It does not indicate a test failure.
@@ -72,8 +72,8 @@ The warning is from `joblib/loky` CPU-core detection during clustering tests. It
 Streamlit smoke test:
 
 ```bash
-streamlit run app.py --server.headless true --server.port 8521
-curl -I http://localhost:8521/
+streamlit run app.py --server.headless true --server.port 8528
+curl -I http://localhost:8528/
 ```
 
 Result:
@@ -152,7 +152,6 @@ See `docs/KNOWN_LIMITATIONS.md` for the full list. Key limitations:
 
 - Run the manual workflows in `docs/E2E_QA_CHECKLIST.md` with the included sample datasets.
 - Create screenshots for README and GitHub release assets.
-- Initialize the project as a git repository if it is not already one.
 - Consider creating a lock file from a clean virtual environment for stricter reproducibility.
 - Collect feedback from users learning statistics or applied ML and refine the UI copy where needed.
 - Keep future changes focused on robustness, clarity, and correctness before adding more models.

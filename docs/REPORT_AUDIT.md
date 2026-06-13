@@ -168,7 +168,7 @@ python3 -m pytest
 
 Result:
 
-- 372 passed
+- 384 passed
 - 1 warning from `joblib/loky` about physical CPU core detection during clustering tests
 
 ## Sample Workflow Report Generation

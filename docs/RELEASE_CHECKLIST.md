@@ -1,6 +1,6 @@
 # Release Checklist
 
-Last updated: 2026-05-17
+Last updated: 2026-06-13
 
 This checklist captures the final local-release readiness audit for Stats Learning Lab.
 
@@ -14,8 +14,8 @@ This is not a hosted multi-user production release. The app remains a local anal
 
 | Area | Status | Notes |
 |---|---:|---|
-| Automated tests | pass | `python3 -m pytest` passes with 372 tests and 1 non-fatal joblib/loky warning. |
-| Streamlit launch | pass | App starts with `streamlit run app.py --server.headless true --server.port 8521`; `/` returns HTTP 200. |
+| Automated tests | pass | `python3 -m pytest` passes with 384 tests and 1 non-fatal joblib/loky warning. |
+| Streamlit launch | pass | App starts with `streamlit run app.py --server.headless true --server.port 8528`; key routes return HTTP 200. |
 | Requirements | pass with update | Dependencies now use tested major-version ranges instead of fully unpinned names. |
 | Sample data | pass | `sample_data/` exists and is documented in `docs/SAMPLE_DATASETS.md`. |
 | README | pass | README includes description, features, workflow, install/run instructions, sample datasets, validation status, limitations, screenshot placeholders, and disclaimer. |
@@ -24,7 +24,7 @@ This is not a hosted multi-user production release. The app remains a local anal
 | Large unnecessary files | pass | No files larger than 1 MB were found outside ignored virtual/cache paths. |
 | Outputs and reports | pass with ignore rule | Generated output folders are ignored except `.gitkeep` placeholders. |
 | Model artifacts | pass with ignore rule | Pickle/joblib artifacts and workspace snapshots are ignored. |
-| Clean clone readiness | pass with caveats | Core files, docs, config, sample data, and requirements are present. A fresh install should use the pinned version ranges in `requirements.txt`. |
+| Clean clone readiness | pass with caveats | Core files, docs, config, sample data, and requirements are present. A fresh install should use the bounded version ranges in `requirements.txt`. |
 
 ## Validation Commands Run
 
@@ -39,7 +39,7 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.42s
 ```
 
 Warning:
@@ -56,13 +56,13 @@ Note:
 Command:
 
 ```bash
-streamlit run app.py --server.headless true --server.port 8521
+streamlit run app.py --server.headless true --server.port 8528
 ```
 
 Smoke check:
 
 ```bash
-curl -I http://localhost:8521/
+curl -I http://localhost:8528/
 ```
 
 Result:
@@ -162,7 +162,7 @@ No release-blocking issues were found for a stable local release.
 
 - Manual end-to-end QA should still be repeated with the sample datasets before sharing broadly.
 - Large datasets and runtime-heavy tools can be slow.
-- The project directory is not currently a git repository, so repository-level status and tagging cannot be performed until git is initialized.
+- Local ignored files such as caches, `.DS_Store`, and workspace snapshot preferences may exist on a developer machine, but they are not release assets.
 - Workspace snapshots use pickle and should remain trusted-local only.
 - PDF and Word export are not implemented.
 - Some docs that record older validation snapshots may show earlier test counts; this release checklist records the latest audit result.
@@ -172,7 +172,7 @@ No release-blocking issues were found for a stable local release.
 Recommended release candidate tag:
 
 ```text
-v1.0.0-rc1
+v1.0.0
 ```
 
 Rationale:

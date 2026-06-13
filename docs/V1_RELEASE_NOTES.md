@@ -105,7 +105,7 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.42s
 ```
 
 The warning is from `joblib/loky` CPU-core detection during clustering tests. It does not indicate a test failure.
@@ -115,13 +115,13 @@ The warning is from `joblib/loky` CPU-core detection during clustering tests. It
 Command:
 
 ```bash
-streamlit run app.py --server.headless true --server.port 8521
+streamlit run app.py --server.headless true --server.port 8528
 ```
 
 Local check:
 
 ```bash
-curl -I http://localhost:8521/
+curl -I http://localhost:8528/
 ```
 
 Result:

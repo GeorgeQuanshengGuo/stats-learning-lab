@@ -1,6 +1,6 @@
 # Stabilization Plan
 
-Last updated: 2026-05-17
+Last updated: 2026-06-13
 
 The main construction phase is complete. This plan intentionally avoids new major features. The next phase should prioritize correctness, robustness, reproducibility, performance awareness, and documentation.
 
@@ -15,13 +15,12 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.42s
 ```
 
 Known validation note:
 
 - `python` may not exist in this environment. Use `python3`.
-- The directory is not currently a git repository, so `git status` is unavailable unless the project is later initialized as a repository.
 - The current warning is from joblib/loky CPU-core detection and does not indicate a failing test.
 
 ## Stabilization Goals

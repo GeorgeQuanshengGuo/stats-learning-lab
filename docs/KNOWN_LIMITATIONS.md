@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last updated: 2026-05-17
+Last updated: 2026-06-13
 
 This document is intentionally honest. Stats Learning Lab is a learning and practice tool, not a replacement for statistical judgment, domain review, or production ML governance.
 
@@ -10,7 +10,6 @@ This document is intentionally honest. Stats Learning Lab is a learning and prac
 - The app does not implement black-box AutoML. Users must choose targets, features, models, and preprocessing options.
 - Many outputs are exploratory. They should guide analysis, not become automatic conclusions.
 - Large datasets may be slow or memory-heavy because many workflows use pandas, Plotly, statsmodels, and sklearn directly in the Streamlit process.
-- The project directory is not currently a git repository, so repository-level diff/status tracking is not available unless initialized later.
 
 ## Data Type Limitations
 
@@ -142,7 +141,7 @@ python3 -m pytest
 Result:
 
 ```text
-372 passed, 1 warning in 5.43s
+384 passed, 1 warning in 6.42s
 ```
 
 Remaining risk:

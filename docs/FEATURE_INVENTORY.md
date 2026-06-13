@@ -197,7 +197,7 @@ python3 -m pytest
 Result:
 
 ```text
-384 passed, 1 warning in 6.80s
+384 passed, 1 warning in 6.42s
 ```
 
 The warning is a joblib/loky CPU-core detection warning during clustering tests. It does not fail the suite.

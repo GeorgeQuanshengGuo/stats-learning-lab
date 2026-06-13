@@ -175,10 +175,6 @@ Result:
 - 1 warning from `joblib/loky` about physical CPU core detection in clustering tests
 - no failures
 
-Repository status note:
-
-- This project directory is not currently a git repository, so `git status` is not available.
-
 ## Remaining Limitations
 
 - The audit tests representative ML paths rather than every possible page interaction.

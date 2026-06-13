@@ -15,7 +15,7 @@ python3 -m pytest
 Result:
 
 ```text
-384 passed, 1 warning in 6.80s
+384 passed, 1 warning in 6.42s
 ```
 
 The warning is a non-fatal joblib/loky CPU-core detection warning that appears during machine-learning tests. It does not currently fail the suite.
@@ -25,7 +25,7 @@ The warning is a non-fatal joblib/loky CPU-core detection warning that appears d
 Command:
 
 ```bash
-streamlit run app.py --server.headless true --server.port 8527
+streamlit run app.py --server.headless true --server.port 8528
 ```
 
 Result:
@@ -33,6 +33,7 @@ Result:
 ```text
 Passed. The app started locally and returned HTTP 200 for:
 - /
+- /upload_data
 - /analysis_plan
 - /report
 ```
@@ -41,8 +42,12 @@ The first sandboxed launch attempt failed because the local environment blocked 
 
 ## Most Recent Functional Area Validated
 
-The latest validation covered the statistical rigor workflow:
+The latest validation covered release-readiness and the statistical rigor workflow:
 
+- secret/private-path scan
+- ignored-artifact review
+- sample dataset review
+- local Streamlit route smoke checks
 - Analysis Plan page
 - `analysis_plan` session state
 - `analysis_decision_log` entries

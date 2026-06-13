@@ -372,4 +372,3 @@ Influential observations are flagged for investigation only. They are not automa
 - Model diagnostics are heuristic screening tools, not automatic proof of model validity or invalidity.
 - Saved ModelRuns and artifacts live only in Streamlit session state and are not persisted to disk.
 - Report export supports Markdown and HTML only; PDF and Word export are not implemented.
-- The repository directory is not currently a git repository.

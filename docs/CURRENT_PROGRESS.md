@@ -177,7 +177,7 @@ python3 -m pytest
 Latest result:
 
 ```text
-384 passed, 1 warning in 6.80s
+384 passed, 1 warning in 6.42s
 ```
 
 The warning is a non-fatal joblib/loky CPU core detection warning from ML tests.

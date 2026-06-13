@@ -100,10 +100,10 @@ See `docs/SAMPLE_DATASETS.md` for the purpose and expected use of each dataset.
 
 The project has an automated pytest suite covering core data handling, EDA helpers, cleaning, transformations, statistical models, ML workflows, prediction, reporting, and state integrity.
 
-The latest report audit recorded:
+The latest validation run recorded:
 
 ```text
-372 passed, 1 warning
+384 passed, 1 warning
 ```
 
 The warning was a non-fatal joblib/loky CPU-core detection warning during clustering tests. For current local validation, run:
